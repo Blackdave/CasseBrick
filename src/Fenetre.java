@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 
 public class Fenetre extends JFrame {
 	
+	private static Fenetre f;
   private Panneau pan = new Panneau();
   
   public static final int HAUTEURFENETRE = 1080/2;
@@ -39,6 +40,7 @@ public class Fenetre extends JFrame {
 	    public void keyPressed(KeyEvent event) {
 	      System.out.println("Code touche pressée : " + event.getKeyCode() + " - caractère touche pressée : " + event.getKeyChar());
 	      
+	      //fleche gauche
 	      if(37==event.getKeyCode() && pan.raqX > 0){
 	    	  if(pan.raqX - PAS < 0){
 	    		  pan.raqX = 0;
@@ -48,6 +50,7 @@ public class Fenetre extends JFrame {
 	    	  }
 	    		//System.out.println("a gauche");
 	    	}
+	      //fleche droite
 	    	if(39==event.getKeyCode() &&  pan.raqX + pan.LARGEURRAQUETTE < pan.getWidth()){
 	    		if(pan.raqX + pan.LARGEURRAQUETTE + PAS > pan.getWidth()){
 	    			pan.raqX = pan.getWidth() - pan.LARGEURRAQUETTE;
@@ -57,16 +60,25 @@ public class Fenetre extends JFrame {
 	    		}
 	    		//System.out.println("a droite");
 	    	}
+	    	//caractere p
 	    	if(80==event.getKeyCode()){
 	    		pause = !pause;
-	    		//System.out.println("C'EST LA PAUSE!\n " + pause);
+	    		System.out.println("C'EST LA PAUSE!\n ");
 	    	}
-	    	if(32==event.getKeyCode())
-	    	{
-	    		x = pan.getPosX();
-	  		  	y = pan.getPosY();
-	    		pause = true;
-	    	}
+	    	
+	    }
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
 
 	    	//System.out.println("déja bougé");
 	    }
@@ -80,7 +92,6 @@ public class Fenetre extends JFrame {
 	      //System.out.println("Code touche tapée : " + event.getKeyCode() + " - caractère touche tapée : " + event.getKeyChar());
 	    
 	    }   	
-	  }
   
   private void collision()
   {
@@ -110,7 +121,7 @@ public class Fenetre extends JFrame {
 	//Gère les colisions de la balle avec les briques (si la balle touche la brique, on "vire" la brique du champ de vision du joueur
 	for(cpt=0; cpt<pan.NB_BRIQUES; cpt ++){
 		if(x  > pan.tabX[cpt] && x < pan.tabX[cpt]+pan.LARGEURBRIQUE && y > pan.tabY[cpt] && y  < pan.tabY[cpt] + pan.HAUTEURBRIQUE){
-			backX = !backX;
+			//backX = !backX;
 			backY = !backY;
 			pan.tabX[cpt] = -100;
 			pan.tabY[cpt] = -100;
@@ -129,13 +140,6 @@ public class Fenetre extends JFrame {
     while(!jeuFini){
     	
     	collision();
-    	
-    	/*
-    	//affichage des briques en jeu
-    	for(cpt=0; cpt<pan.NB_BRIQUES; cpt ++){
-    		System.out.println(pan.tabX[cpt] + " " + pan.tabY[cpt]);
-    	}
-    	*/
     	
     	if(!pause){
     		// Si on avance, on incrémente la coordonnée
@@ -157,17 +161,6 @@ public class Fenetre extends JFrame {
     	}catch(InterruptedException e){
     		e.printStackTrace();
     	}
-      // Comme on dit : la pause s'impose ! Ici, trois millièmes de seconde
-      /*try {
-    	  if(!pause){
-        Thread.sleep(3);
-    	  }
-    	  else{
-    		  Thread.sleep(1000);
-    	  }
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }*/
     }
     if(cptBriques == 0){
 		  System.out.println("Gagné!");
@@ -178,7 +171,7 @@ public class Fenetre extends JFrame {
   }
   
   public static void main(String[] args) {
-	    Fenetre f = new Fenetre();
+	    f = new Fenetre();
 	    f.go();
 	  }
   
